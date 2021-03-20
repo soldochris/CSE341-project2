@@ -62,7 +62,23 @@ const renderIndex = (req, res) =>{
   res.render('index');
 };
 
+const renderMyAccount = (req, res) =>{
+  res.render('myAccount');
+};
+
+const createAccount = (req, res) =>{
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = req.body.password;
+
+  //Here I will insert the data into the database
+  console.log(name);
+  console.log(email);
+  console.log(password);
+  res.setHeader("Content-Type", "application/json");
+  res.send(req.body);
+};
 
 module.exports = {
-  renderIndex, getAllUsers, getUser, getUserFavs
+  renderIndex, getAllUsers, getUser, getUserFavs, renderMyAccount, createAccount
 }

@@ -6,13 +6,17 @@ const { Pool } = require('pg');
 //initializations
 const app = express();
 
-
 //settings
 app.set('port', process.env.PORT || 5000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','ejs');
 
+//public
+app.use(express.static(path.join(__dirname, 'public')));
+
 //middlewares
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
 
 //routers
 app.use(require('./routes/entries.routes'));
