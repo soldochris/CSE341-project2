@@ -1,4 +1,7 @@
 const { Pool } = require('pg');
+const bcrypt = require('bcrypt');
+
+
 const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({
   connectionString: connectionString,
@@ -39,7 +42,6 @@ const getUser = (req, res)=>{
   })
 };
 
-
 const getUserFavs = (req, res)=>{
   const id = req.params.id;
 
@@ -63,22 +65,41 @@ const renderIndex = (req, res) =>{
 };
 
 const renderMyAccount = (req, res) =>{
-  res.render('myAccount');
+  res.render('createAccount');
 };
 
-const createAccount = (req, res) =>{
+const createAccount = async (req, res) =>{
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
+  const hash = bcrypt.hashSync(password, 10);
 
-  //Here I will insert the data into the database
-  console.log(name);
-  console.log(email);
-  console.log(password);
-  res.setHeader("Content-Type", "application/json");
-  res.send(req.body);
+  const text = 'INSERT INTO users(user_name, user_email, user_pass) VALUES ($1, $2,$3)';
+  const values = [name,email, hash];
+  const response = await pool.query(text,values);
+  res.render('myFavs');
+};
+
+const renderProfile =(req, res) =>{
+  res.render('myFavs');
+};
+
+const renderSignIn = (req, res) =>{
+  res.render('signIn');
+};
+
+const logout = (req, res) => {
+  req.logout();
+  res.redirect('/');
+};
+
+function isAuthenticated(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  }
+  res.redirect('/');
 };
 
 module.exports = {
-  renderIndex, getAllUsers, getUser, getUserFavs, renderMyAccount, createAccount
+  renderIndex, getAllUsers, getUser, getUserFavs, renderMyAccount, createAccount, renderSignIn, renderProfile, logout, isAuthenticated
 }

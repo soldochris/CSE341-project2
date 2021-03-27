@@ -7,7 +7,11 @@
           <a class="nav-link" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">My Account</a>
+          <% if(user) {%>
+            <a class="nav-link" href="/profile">My Account</a>
+          <% } else {%>
+            <a class="nav-link" href="/signUp">Create Account</a>
+          <% }%>
         </li>
       </ul>
     </div>
