@@ -1,4 +1,6 @@
 const apiUrl = 'https://rickandmortyapi.com/api/character/?page=';
+const idUser = document.getElementById('userId').innerText;
+
 const characterList = document.getElementById('allChars');
 
 for(let i= 0; i <= 34 ;i++){
@@ -45,6 +47,7 @@ for(let i= 0; i <= 34 ;i++){
               </ul>
             </div>
             <div class="modal-footer">
+              <a class="btn btn-success" href="/addFav/${jsObject.results[j].id}&${idUser}" >Add to Favs</a>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
           </div>

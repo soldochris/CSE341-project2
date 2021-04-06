@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const router = Router();
 const passport = require('passport');
-const {renderIndex, getAllUsers, getUser, getUserFavs, renderMyAccount, createAccount, renderSignIn, renderProfile, logout, isAuthenticated} = require('../controllers/entries.controller');
+const {renderIndex, getAllUsers, getUser, getUserFavs, renderMyAccount, createAccount, renderSignIn, renderProfile, logout, isAuthenticated, addFav, delFav} = require('../controllers/entries.controller');
 
 router.get('/', renderIndex);
 router.get('/api/users', getAllUsers);
@@ -17,5 +17,7 @@ router.post('/signIn', passport.authenticate('local-signin',{
   }));
 router.get('/profile', isAuthenticated, renderProfile);
 router.get('/logout', logout);
+router.get('/addFav/:idFav&:idUser', isAuthenticated, addFav);
+router.get('/delFav/:idFav', isAuthenticated, delFav);
 
 module.exports = router;

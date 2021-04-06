@@ -77,7 +77,7 @@ const createAccount = async (req, res) =>{
   const text = 'INSERT INTO users(user_name, user_email, user_pass) VALUES ($1, $2,$3)';
   const values = [name,email, hash];
   const response = await pool.query(text,values);
-  res.render('myFavs');
+  res.redirect('/signIn');
 };
 
 const renderProfile =(req, res) =>{
@@ -100,6 +100,26 @@ function isAuthenticated(req, res, next){
   res.redirect('/');
 };
 
+const addFav = async(req, res) => {
+  const idFav = req.params.idFav;
+  const idUser = req.params.idUser;
+
+  const text = 'INSERT INTO favs(char_id, user_id) VALUES ($1, $2)';
+  const values = [idFav, idUser];
+  const response = await pool.query(text,values);
+  res.redirect('/profile');
+}
+
+
+const delFav = async(req, res) => {
+  const idFav = req.params.idFav;
+
+  const text = 'DELETE FROM favs WHERE fav_id = $1';
+  const values = [idFav];
+  const response = await pool.query(text,values);
+  res.redirect('/profile');
+}
+
 module.exports = {
-  renderIndex, getAllUsers, getUser, getUserFavs, renderMyAccount, createAccount, renderSignIn, renderProfile, logout, isAuthenticated
+  renderIndex, getAllUsers, getUser, getUserFavs, renderMyAccount, createAccount, renderSignIn, renderProfile, logout, isAuthenticated, addFav, delFav
 }

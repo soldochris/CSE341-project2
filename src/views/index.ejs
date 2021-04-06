@@ -2,7 +2,18 @@
 <%- include('partials/navbar') %>
   <h1 class="text-center display-4 my-5">Save your favorite Characters</h1>
   <div class="container container-fluid">
-    <ul id="list-characters" class="list-group mb-5"></ul>
+    <% if(user) {%>
+      <div class="alert alert-primary alert-dismissible fade show mx-auto" style="width: 60%;" role="alert">
+        Go to your <a href="/profile" class="alert-link">Account</a> to see your favs.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } else {%>
+      <div class="alert alert-warning alert-dismissible fade show mx-auto" style="width: 60%;" role="alert">
+        Create an <a href="/signUp" class="alert-link">Account</a> to save your favs.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% }%>
+    <ul id="list-characters" class="list-group mb-5 mx-auto" style="width: 60%;"></ul>
   </div>
   <script src="scripts.js"></script>
 <%- include('partials/footer') %>
